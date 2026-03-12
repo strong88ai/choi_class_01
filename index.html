@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT 맞춤 설정 & GPTs 실전 강의</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{--ink:#0F172A;--ink-2:#1E293B;--ink-m:#475569;--ink-f:#64748B;--surf:#FFF;--surf-a:#F8FAFC;--surf-t:#ECFDF5;--bdr:#CBD5E1;--bdr-s:#94A3B8;--t9:#0C3E3E;--t7:#0D5F5F;--t6:#0F766E;--t5:#14B8A6;--t1:#CCFBF1;--t0:#F0FDFA;--a6:#B45309;--a1:#FEF3C7;--a0:#FFFBEB;--b6:#1D4ED8;--b0:#EFF6FF;--r:14px;--rs:10px;--s1:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);--s2:0 4px 8px rgba(0,0,0,.06),0 2px 4px rgba(0,0,0,.04)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:var(--surf);line-height:1.8;font-size:20px;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+
+.hero{background:var(--t9);padding:80px 32px 64px;text-align:center}
+.hero h1{font-size:clamp(32px,5.5vw,48px);font-weight:800;color:#fff;line-height:1.3;letter-spacing:-.025em;margin-bottom:16px}
+.hero .sub{font-size:22px;font-weight:500;color:var(--t5);margin-bottom:32px}
+.hero-meta{display:inline-flex;gap:28px;font-size:17px;color:rgba(255,255,255,.7);font-weight:600}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr)}
+.nav-inner{max-width:960px;margin:0 auto;padding:0 40px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-item{padding:16px 22px;font-size:17px;font-weight:600;color:var(--ink-m);cursor:pointer;border:none;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;background:none;font-family:inherit}
+.nav-item:hover{color:var(--ink)}
+.nav-item.active{color:var(--t6);border-bottom-color:var(--t6)}
+
+.wrap{max-width:960px;margin:0 auto;padding:0 40px}
+.section{padding:64px 0 48px}
+.section+.section{border-top:1px solid var(--bdr)}
+
+.overline{font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t6);margin-bottom:8px}
+.section-title{font-size:clamp(28px,4.5vw,36px);font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.3;margin-bottom:8px}
+.section-desc{font-size:19px;color:var(--ink-m);margin-bottom:40px;line-height:1.75;max-width:700px}
+h3.sh{font-size:22px;font-weight:700;color:var(--ink);margin:44px 0 20px;letter-spacing:-.01em}
+
+.cbox{background:var(--surf-t);border:1.5px solid var(--t1);border-radius:var(--r);padding:32px 36px;margin-bottom:28px}
+.cbox .lb{font-size:15px;font-weight:700;color:var(--t6);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.cbox .mt{font-size:22px;font-weight:700;color:var(--ink);line-height:1.5;margin-bottom:14px}
+.cbox .dt{font-size:18px;color:var(--ink-2);line-height:1.75}
+
+.flow{display:flex;align-items:stretch;gap:0;margin:28px 0;overflow-x:auto;background:var(--surf-a);border-radius:var(--r);border:1.5px solid var(--bdr)}
+.flow-i{flex:1;min-width:170px;text-align:center;padding:24px 16px;position:relative}
+.flow-i:not(:last-child)::after{content:'';position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:12px solid var(--bdr-s);z-index:1}
+.flow-n{width:40px;height:40px;border-radius:50%;background:var(--t6);color:#fff;font-size:18px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px}
+.flow-l{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.flow-d{font-size:15px;color:var(--ink-m);line-height:1.5}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--r);overflow:hidden;border:1.5px solid var(--bdr);margin:28px 0}
+@media(max-width:580px){.split{grid-template-columns:1fr}.chat-compare{grid-template-columns:1fr !important}}
+.sp-s{padding:32px 28px}
+.sp-s.l{background:var(--surf-a);border-right:1.5px solid var(--bdr)}
+.sp-s.r{background:var(--surf-t)}
+.sp-tag{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;padding:4px 14px;border-radius:6px;display:inline-block}
+.sp-s.l .sp-tag{background:var(--bdr-s);color:var(--ink-2)}
+.sp-s.r .sp-tag{background:var(--t6);color:#fff}
+.sp-s h4{font-size:20px;font-weight:700;margin-bottom:10px}
+.sp-s p{font-size:17px;color:var(--ink-2);line-height:1.75}
+.sp-s.r h4{color:var(--t7)}
+
+.g4{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+@media(max-width:480px){.g4{grid-template-columns:1fr}}
+.gc{border:1.5px solid var(--bdr);border-radius:var(--rs);padding:22px 24px;background:var(--surf)}
+.gc .gl{font-size:14px;font-weight:700;color:var(--t6);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.gc .gt{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.gc .gd{font-size:16px;color:var(--ink-m);line-height:1.5}
+
+.exs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 28px}
+@media(max-width:580px){.exs{grid-template-columns:1fr}}
+.exb{border-radius:var(--rs);padding:24px;border:1.5px solid var(--bdr)}
+.exb.a{background:var(--a0);border-color:#FDE68A}
+.exb.b{background:var(--t0);border-color:var(--t1)}
+.ext{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;padding:5px 14px;border-radius:6px;display:inline-block}
+.exb.a .ext{background:var(--a6);color:#fff}
+.exb.b .ext{background:var(--t6);color:#fff}
+.exr{display:grid;grid-template-columns:28px 1fr;gap:10px;margin-bottom:8px;font-size:17px;line-height:1.5}
+.exr .tg{font-size:14px;font-weight:800;color:var(--t7);padding-top:3px}
+.exb.a .exr .tg{color:var(--a6)}
+
+.cb{background:#1E293B;border-radius:var(--rs);padding:24px 28px;margin:14px 0 24px;position:relative;border:1.5px solid #334155}
+.cb .cl{font-size:14px;font-weight:700;color:var(--t5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.cb pre{font-family:'Pretendard Variable',sans-serif;font-size:17px;color:#F1F5F9;line-height:1.85;white-space:pre-wrap;word-break:keep-all}
+.cb .cp{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);padding:7px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.cb .cp:hover{background:rgba(255,255,255,.2);color:#fff}
+.cb .cp.copied{background:var(--t6);color:#fff;border-color:var(--t6)}
+
+.steps{margin:28px 0}
+.si{display:grid;grid-template-columns:52px 1fr;gap:20px;padding-bottom:32px;position:relative}
+.si:not(:last-child)::before{content:'';position:absolute;left:25px;top:52px;bottom:0;width:2px;background:var(--bdr)}
+.sb{width:52px;height:52px;border-radius:14px;background:var(--t6);color:#fff;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.sc h4{font-size:20px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.sc p{font-size:17px;color:var(--ink-m);line-height:1.7}
+
+.dt{width:100%;border-collapse:collapse;font-size:17px;margin:20px 0;border:1.5px solid var(--bdr);border-radius:var(--rs);overflow:hidden}
+.dt thead th{background:var(--t9);color:#fff;padding:14px 24px;text-align:left;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.04em}
+.dt td{padding:14px 24px;border-bottom:1px solid var(--bdr);color:var(--ink-2)}
+.dt tr:nth-child(even){background:var(--surf-a)}
+.dt td:first-child{font-weight:700;color:var(--ink)}
+.dt .hl{background:var(--t0)}
+.dt .hl td{color:var(--t7);font-weight:700}
+
+.co{display:grid;grid-template-columns:5px 1fr;gap:18px;padding:20px 0 20px 24px;margin:20px 0;border-radius:var(--rs);font-size:17px;line-height:1.75}
+.co-b{border-radius:3px}
+.co.w{background:var(--a0)}.co.w .co-b{background:var(--a6)}.co.w .co-t{color:#78350F}
+.co.i{background:var(--b0)}.co.i .co-b{background:var(--b6)}.co.i .co-t{color:#1E3A8A}
+.co.t{background:var(--t0)}.co.t .co-b{background:var(--t6)}.co.t .co-t{color:var(--t7)}
+.co strong{font-weight:700}
+
+.brk{text-align:center;padding:48px 0;border-top:1.5px solid var(--bdr);border-bottom:1.5px solid var(--bdr);background:var(--surf-a)}
+.brk span{display:inline-block;background:var(--t9);color:#fff;padding:14px 40px;border-radius:100px;font-size:19px;font-weight:700}
+
+.mi{background:var(--t9);border-radius:var(--r);padding:36px;color:#fff;margin-bottom:20px}
+.mi h3{font-size:22px;font-weight:800;margin-bottom:10px}
+.mi>p{font-size:18px;color:rgba(255,255,255,.85);line-height:1.75}
+.mh{margin-top:20px;padding:20px 24px;background:rgba(255,255,255,.1);border-radius:var(--rs);border:1px solid rgba(255,255,255,.12)}
+.mh strong{color:var(--t5);font-size:17px}
+.mh p{font-size:17px;margin-top:8px;color:rgba(255,255,255,.85);line-height:1.75}
+
+.source{font-size:14px;color:var(--ink-f);margin-top:-18px;margin-bottom:28px}
+.footer{text-align:center;padding:56px 40px;background:var(--t9);color:rgba(255,255,255,.5);font-size:17px}
+.footer .hl{color:var(--t5);font-weight:700;font-size:20px}
+@media print{.nav{display:none}.cp{display:none}.hero{padding:40px 32px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+<div style="max-width:700px;margin:0 auto">
+<h1>ChatGPT 맞춤 설정 &amp;<br>나만의 GPTs 실전 가이드</h1>
+<p class="sub">맞춤 설정부터 나만의 AI 비서 제작까지, 2시간 완성 실습 과정</p>
+<div class="hero-meta"><span>총 2시간</span><span>실습 2회 포함</span><span>초보자 대상</span></div>
+</div>
+</header>
+
+<nav class="nav"><div class="nav-inner">
+<button class="nav-item active" onclick="go('obj')">학습 목표</button>
+<button class="nav-item" onclick="go('p1')">1부 맞춤 설정</button>
+<button class="nav-item" onclick="go('pr1')">실습 1</button>
+<button class="nav-item" onclick="go('p2')">2부 GPTs</button>
+<button class="nav-item" onclick="go('pr2')">실습 2</button>
+<button class="nav-item" onclick="go('ms')">적용 미션</button>
+</div></nav>
+
+<main class="wrap">
+
+<section class="section" id="obj">
+<p class="overline">Learning Objectives</p>
+<h2 class="section-title">학습 목표</h2>
+<p class="section-desc">이 수업을 마치면 다음을 직접 수행할 수 있습니다.</p>
+<div class="flow">
+<div class="flow-i"><div class="flow-n">1</div><div class="flow-l">개념 이해</div><div class="flow-d">맞춤 설정과 GPTs의<br>차이를 설명할 수 있다</div></div>
+<div class="flow-i"><div class="flow-n">2</div><div class="flow-l">맞춤 설정 적용</div><div class="flow-d">나의 상황에 맞는<br>설정을 직접 작성한다</div></div>
+<div class="flow-i"><div class="flow-n">3</div><div class="flow-l">GPTs 제작</div><div class="flow-d">나만의 AI 비서를<br>직접 만들어 본다</div></div>
+<div class="flow-i"><div class="flow-n">4</div><div class="flow-l">시스템 구축</div><div class="flow-d">두 기능을 조합한<br>활용 체계를 설계한다</div></div>
+</div>
+</section>
+
+<section class="section" id="p1">
+<p class="overline">Part 1 &mdash; 50분</p>
+<h2 class="section-title">ChatGPT 개인 맞춤 설정</h2>
+<p class="section-desc">ChatGPT는 새 대화를 열 때마다 사용자를 처음 만난 것처럼 인식합니다. 맞춤 설정은 이 문제를 해결하는 기능입니다.</p>
+
+<div class="cbox"><div class="lb">Core Concept</div><div class="mt">맞춤 설정 = 모든 대화에 자동으로 적용되는 나만의 배경 정보와 응답 규칙</div><div class="dt">한번 설정하면 새 대화를 열 때마다 ChatGPT가 자동으로 참조합니다. 매번 "한국어로 답해줘", "나는 이런 사람이야"를 반복할 필요가 사라집니다.</div></div>
+<p class="source">출처: OpenAI 공식 블로그, "Custom Instructions for ChatGPT" (2023.07 공개, 이후 전체 사용자 확대)</p>
+
+<h3 class="sh">설정 전과 후의 차이</h3>
+
+<!-- SVG: 대화 시뮬레이션 Before/After -->
+<div class="chat-compare" style="margin:24px 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<!-- Before -->
+<div style="border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;background:#fff">
+<svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <rect width="360" height="320" fill="#F9FAFB"/>
+  <!-- header -->
+  <rect width="360" height="38" fill="#E5E7EB"/>
+  <text x="180" y="24" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#6B7280">ChatGPT &mdash; 설정 전</text>
+  <!-- user msg -->
+  <rect x="120" y="56" width="220" height="36" rx="12" fill="#0F766E"/>
+  <text x="230" y="79" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="12" font-weight="600" fill="#FFF">블로그 글 써줘</text>
+  <!-- ai reply -->
+  <rect x="20" y="108" width="300" height="180" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="32" y="130" font-family="Pretendard,sans-serif" font-size="11" font-weight="600" fill="#9CA3AF">ChatGPT</text>
+  <text x="32" y="152" font-family="Pretendard,sans-serif" font-size="12" fill="#374151">Here are some tips for writing a</text>
+  <text x="32" y="170" font-family="Pretendard,sans-serif" font-size="12" fill="#374151">great blog post:</text>
+  <text x="32" y="194" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">1. Choose a compelling topic...</text>
+  <text x="32" y="212" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">2. Write an engaging intro...</text>
+  <text x="32" y="230" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">3. Use headers and lists...</text>
+  <text x="32" y="260" font-family="Pretendard,sans-serif" font-size="11" fill="#DC2626" font-weight="600">영어로 답변 / 내 상황 무관 / 일반적 내용</text>
+</svg>
+</div>
+<!-- After -->
+<div style="border:2px solid var(--t5);border-radius:var(--r);overflow:hidden;background:#fff">
+<svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <rect width="360" height="320" fill="#F0FDFA"/>
+  <!-- header -->
+  <rect width="360" height="38" fill="#0F766E"/>
+  <text x="180" y="24" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#FFF">ChatGPT &mdash; 설정 후</text>
+  <!-- user msg -->
+  <rect x="120" y="56" width="220" height="36" rx="12" fill="#0F766E"/>
+  <text x="230" y="79" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="12" font-weight="600" fill="#FFF">블로그 글 써줘</text>
+  <!-- ai reply -->
+  <rect x="20" y="108" width="300" height="180" rx="12" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+  <text x="32" y="130" font-family="Pretendard,sans-serif" font-size="11" font-weight="600" fill="#0F766E">ChatGPT</text>
+  <text x="32" y="152" font-family="Pretendard,sans-serif" font-size="12" fill="#374151">꽃집 사장님을 위한 블로그 글을</text>
+  <text x="32" y="170" font-family="Pretendard,sans-serif" font-size="12" fill="#374151">작성해 드리겠습니다.</text>
+  <text x="32" y="194" font-family="Pretendard,sans-serif" font-size="12" fill="#374151">제목: 봄맞이 꽃 배달, 이렇게 준비하세요</text>
+  <text x="32" y="218" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">- 배달 서비스 시작 전 체크리스트</text>
+  <text x="32" y="236" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">- SNS에 올리기 좋은 홍보 문구 3가지</text>
+  <text x="32" y="254" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">- 소규모 꽃집에 맞는 배달 포장 팁</text>
+  <text x="32" y="278" font-family="Pretendard,sans-serif" font-size="11" fill="#0F766E" font-weight="600">한국어 / 내 업종 맞춤 / 바로 사용 가능</text>
+</svg>
+</div>
+</div>
+<p style="text-align:center;font-size:15px;color:var(--ink-f);margin-bottom:24px">같은 질문 "블로그 글 써줘"에 대한 응답 비교. 맞춤 설정 하나로 결과가 완전히 달라집니다.</p>
+
+<div class="split">
+<div class="sp-s l"><span class="sp-tag">설정 전</span><h4>처음 가는 식당</h4><p>메뉴판을 처음부터 봐야 하고, 취향을 매번 설명해야 합니다. 원하는 결과를 얻으려면 추가 질문이 반복됩니다.</p></div>
+<div class="sp-s r"><span class="sp-tag">설정 후</span><h4>단골 식당</h4><p>"오늘도 순두부 안 매운 걸로요?" — 나의 선호를 이미 알고 있어, 한마디면 원하는 결과가 나옵니다.</p></div>
+</div>
+
+<h3 class="sh">맞춤 설정의 구조</h3>
+<p style="font-size:18px;color:var(--ink-2);margin-bottom:16px">설정 화면에는 두 개의 입력란이 있습니다. 각각의 역할이 다릅니다.</p>
+
+<!-- SVG: 맞춤 설정 UI 모형 -->
+<div style="margin:24px 0 32px;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;background:#fff">
+<svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs>
+    <filter id="ds" x="-2%" y="-2%" width="104%" height="104%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.06"/></filter>
+  </defs>
+  <!-- window frame -->
+  <rect x="20" y="20" width="720" height="380" rx="12" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1.5"/>
+  <!-- title bar -->
+  <rect x="20" y="20" width="720" height="44" rx="12" fill="#F3F4F6"/>
+  <rect x="20" y="52" width="720" height="12" fill="#F3F4F6"/>
+  <circle cx="44" cy="42" r="5" fill="#FCA5A5"/><circle cx="62" cy="42" r="5" fill="#FDE68A"/><circle cx="80" cy="42" r="5" fill="#86EFAC"/>
+  <text x="380" y="47" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="13" font-weight="700" fill="#374151">ChatGPT 맞춤 설정</text>
+  <!-- label -->
+  <text x="50" y="92" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#6B7280" letter-spacing="0.5">맞춤 지침은 모든 새 대화에 자동으로 적용됩니다</text>
+  <!-- Box 1 -->
+  <rect x="40" y="110" width="700" height="130" rx="10" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5" filter="url(#ds)"/>
+  <rect x="40" y="110" width="700" height="4" rx="2" fill="#0F766E"/>
+  <text x="60" y="136" font-family="Pretendard,sans-serif" font-size="13" font-weight="700" fill="#0F766E">ChatGPT가 알아야 할 나에 대한 정보</text>
+  <text x="60" y="162" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">저는 소규모 꽃집을 운영하는 자영업자입니다.</text>
+  <text x="60" y="180" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">꽃 배달 서비스를 준비 중이고, SNS 마케팅에 관심이 많습니다.</text>
+  <text x="60" y="198" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">한국어로 대화합니다. AI는 처음 사용합니다.</text>
+  <text x="700" y="228" text-anchor="end" font-family="Pretendard,sans-serif" font-size="11" fill="#9CA3AF">1,500자 제한</text>
+  <!-- Box 2 -->
+  <rect x="40" y="248" width="700" height="120" rx="10" fill="#FFFFFF" stroke="#FDE68A" stroke-width="1.5" filter="url(#ds)"/>
+  <rect x="40" y="248" width="700" height="4" rx="2" fill="#D97706"/>
+  <text x="60" y="274" font-family="Pretendard,sans-serif" font-size="13" font-weight="700" fill="#D97706">ChatGPT가 어떻게 응답했으면 하는지</text>
+  <text x="60" y="300" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">항상 한국어로 답변해 주세요.</text>
+  <text x="60" y="318" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">어려운 용어가 나오면 쉬운 말로 풀어서 설명해 주세요.</text>
+  <text x="60" y="336" font-family="Pretendard,sans-serif" font-size="12" fill="#6B7280">답변은 목록 형태로 정리해 주세요. 이모지는 사용하지 마세요.</text>
+  <text x="700" y="358" text-anchor="end" font-family="Pretendard,sans-serif" font-size="11" fill="#9CA3AF">1,500자 제한</text>
+  <!-- Save button -->
+  <rect x="600" y="374" width="120" height="36" rx="8" fill="#0F766E"/>
+  <text x="660" y="397" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">저장</text>
+  <!-- annotations -->
+  <rect x="42" y="112" width="6" height="126" rx="3" fill="#0F766E" opacity="0.15"/>
+  <rect x="42" y="250" width="6" height="116" rx="3" fill="#D97706" opacity="0.15"/>
+</svg>
+<p style="text-align:center;font-size:15px;color:var(--ink-f);padding:8px 0 12px">실제 ChatGPT 맞춤 설정 화면의 구조를 재현한 모형입니다</p>
+</div>
+
+<div class="split">
+<div class="sp-s l" style="background:var(--surf-t);border-right:1px solid var(--t1)"><span class="sp-tag" style="background:var(--t6);color:#fff">입력란 1</span><h4>나에 대한 정보</h4><p>ChatGPT가 나를 이해하기 위해 필요한 맥락 정보입니다. 직업, 관심사, 언어, AI 사용 수준을 포함합니다.</p></div>
+<div class="sp-s r" style="background:var(--a0);border-left:none"><span class="sp-tag" style="background:var(--a6);color:#fff">입력란 2</span><h4>원하는 응답 방식</h4><p>ChatGPT의 답변 스타일을 제어합니다. 답변 길이, 말투, 형식, 금지 사항을 지정할 수 있습니다.</p></div>
+</div>
+
+<h3 class="sh">설정 경로</h3>
+<div class="flow">
+<div class="flow-i"><div class="flow-n" style="background:var(--ink)">PC</div><div class="flow-l">프로필 아이콘</div><div class="flow-d">화면 우측 상단</div></div>
+<div class="flow-i"><div class="flow-n" style="background:var(--ink-m)">&rarr;</div><div class="flow-l">ChatGPT 맞춤 설정</div><div class="flow-d">클릭하여 진입</div></div>
+<div class="flow-i"><div class="flow-n" style="background:var(--ink)">앱</div><div class="flow-l">메뉴 &gt; 프로필</div><div class="flow-d">좌측 상단 메뉴</div></div>
+<div class="flow-i"><div class="flow-n" style="background:var(--ink-m)">&rarr;</div><div class="flow-l">개인 맞춤 설정</div><div class="flow-d">탭하여 진입</div></div>
+</div>
+
+<h3 class="sh">입력란 1 — 나에 대한 정보: 4가지 핵심 항목</h3>
+<div class="g4">
+<div class="gc"><div class="gl">항목 1</div><div class="gt">내가 하는 일</div><div class="gd">직업, 역할, 직책</div></div>
+<div class="gc"><div class="gl">항목 2</div><div class="gt">관심사 / 목적</div><div class="gd">현재 집중하는 일</div></div>
+<div class="gc"><div class="gl">항목 3</div><div class="gt">선호 언어</div><div class="gd">한국어 사용 명시</div></div>
+<div class="gc"><div class="gl">항목 4</div><div class="gt">나의 AI 수준</div><div class="gd">초보 / 중급 / 전문가</div></div>
+</div>
+<div class="exs">
+<div class="exb a"><span class="ext">예시 A &mdash; 자영업자</span>
+<div class="exr"><span class="tg">1</span><span>소규모 꽃집을 운영하는 자영업자</span></div>
+<div class="exr"><span class="tg">2</span><span>꽃 배달 서비스 준비, SNS 마케팅</span></div>
+<div class="exr"><span class="tg">3</span><span>한국어로 대화합니다</span></div>
+<div class="exr"><span class="tg">4</span><span>AI는 처음 사용합니다</span></div>
+</div>
+<div class="exb b"><span class="ext">예시 B &mdash; 직장인</span>
+<div class="exr"><span class="tg">1</span><span>중소기업 마케팅 팀장, 7년차</span></div>
+<div class="exr"><span class="tg">2</span><span>보고서 작성, 경쟁사 분석</span></div>
+<div class="exr"><span class="tg">3</span><span>한국어로 대화합니다</span></div>
+<div class="exr"><span class="tg">4</span><span>AI를 가끔 사용해 봤습니다</span></div>
+</div>
+</div>
+
+<h3 class="sh">입력란 2 — 원하는 응답 방식</h3>
+<div class="g4">
+<div class="gc"><div class="gt">답변 길이</div><div class="gd">간결하게 vs 상세하게</div></div>
+<div class="gc"><div class="gt">말투</div><div class="gd">격식체 vs 친근한 톤</div></div>
+<div class="gc"><div class="gt">형식</div><div class="gd">목록 / 표 / 문장형</div></div>
+<div class="gc"><div class="gt">금지 사항</div><div class="gd">이모지 금지, 영어 금지 등</div></div>
+</div>
+<div class="cb"><div class="cl">입력란 2 작성 예시</div><pre>항상 한국어로 답변해 주세요.
+어려운 용어가 나오면 쉬운 말로 풀어서 설명해 주세요.
+답변은 목록 형태로 정리해 주세요.
+이모지는 사용하지 마세요.</pre></div>
+
+<div class="co w"><div class="co-b"></div><div class="co-t"><strong>주의:</strong> 맞춤 설정은 새 대화를 열어야 적용됩니다. 기존에 열려 있는 대화에는 반영되지 않습니다.</div></div>
+<div class="co t"><div class="co-b"></div><div class="co-t"><strong>팁:</strong> 구체적으로 쓸수록 결과가 좋습니다. "직장인"보다 "중소기업 마케팅 팀장"이 훨씬 정확한 답변을 이끌어냅니다. 원하지 않는 것("영어 섞지 마세요")도 명시하면 효과적입니다.</div></div>
+</section>
+
+<section class="section" id="pr1">
+<p class="overline">Practice 1 &mdash; 15분</p>
+<h2 class="section-title">실습: 나만의 맞춤 설정 작성하고 적용하기</h2>
+<p class="section-desc">직접 설정을 작성하고, 설정 전후의 답변 차이를 체험합니다.</p>
+<div class="steps">
+<div class="si"><div class="sb">1</div><div class="sc"><h4>ChatGPT에 접속 및 로그인</h4><p>PC: chatgpt.com / 모바일: ChatGPT 앱 실행</p></div></div>
+<div class="si"><div class="sb">2</div><div class="sc"><h4>맞춤 설정 화면 진입</h4><p>PC: 프로필 아이콘 &rarr; "ChatGPT 맞춤 설정" / 모바일: 메뉴 &rarr; 프로필 &rarr; "개인 맞춤 설정"</p></div></div>
+<div class="si"><div class="sb">3</div><div class="sc"><h4>입력란 1: 나에 대한 정보 작성</h4><p>아래 템플릿의 대괄호 부분을 본인 상황에 맞게 수정하세요. 4가지 항목을 모두 포함합니다.</p>
+<div class="cb"><div class="cl">복사용 템플릿</div><button class="cp" onclick="cc(this)">복사</button><pre>저는 [직업/역할]을 하고 있습니다.
+현재 [관심사 또는 하고 있는 일]에 집중하고 있습니다.
+한국어로 대화합니다.
+AI는 [처음 사용합니다 / 가끔 사용해 봤습니다 / 자주 사용합니다].</pre></div></div></div>
+<div class="si"><div class="sb">4</div><div class="sc"><h4>입력란 2: 원하는 응답 방식 작성</h4>
+<div class="cb"><div class="cl">복사용 템플릿</div><button class="cp" onclick="cc(this)">복사</button><pre>항상 한국어로 답변해 주세요.
+어려운 용어가 나오면 쉬운 말로 풀어서 설명해 주세요.
+답변은 [간결하게 / 자세하게] 해 주세요.</pre></div></div></div>
+<div class="si"><div class="sb">5</div><div class="sc"><h4>저장 후 새 대화에서 테스트</h4><p>반드시 새 대화를 열고 아래 질문으로 결과를 확인하세요.</p>
+<div class="cb"><div class="cl">테스트 질문</div><button class="cp" onclick="cc(this)">복사</button><pre>이번 주에 사용할 수 있는 아이디어 3개만 추천해 줘</pre></div>
+<p style="margin-top:8px;font-size:17px;color:var(--ink-m)">나의 직업과 상황에 맞는 답변이 돌아오는지 확인합니다. 설정을 끄고 같은 질문을 하면 차이를 명확히 체감할 수 있습니다.</p></div></div>
+</div>
+</section>
+
+<div class="brk"><span>쉬는 시간 10분</span></div>
+
+<section class="section" id="p2">
+<p class="overline">Part 2 &mdash; 50분</p>
+<h2 class="section-title">나에게 맞는 GPTs 만들어보기</h2>
+<p class="section-desc">맞춤 설정이 ChatGPT의 '기본 성격'이라면, GPTs는 특정 업무 전용으로 만든 '별도의 AI 비서'입니다.</p>
+
+<div class="cbox"><div class="lb">Core Concept</div><div class="mt">GPTs = 특정 목적에 맞게 역할, 규칙, 지식을 미리 설정해 둔 맞춤형 ChatGPT 챗봇</div><div class="dt">일반 ChatGPT에게는 매번 맥락을 설명해야 하지만, GPTs는 한 번 만들어두면 열자마자 전문적인 도움을 받을 수 있습니다. 파일(PDF, 엑셀 등)을 학습시킬 수도 있습니다.</div></div>
+<p class="source">출처: OpenAI, GPTs 기능 공개 (2023.11) / GPT Store 오픈 (2024.01)</p>
+
+<div class="split">
+<div class="sp-s l"><span class="sp-tag">일반 ChatGPT</span><h4>만능 직원</h4><p>뭐든 할 수 있지만, 매번 업무 배경과 규칙을 처음부터 설명해야 합니다. 반복 작업에서 효율이 떨어집니다.</p></div>
+<div class="sp-s r"><span class="sp-tag">GPTs</span><h4>전문 담당자</h4><p>자기 업무를 이미 파악하고 있는 팀원입니다. 간단한 지시만으로 원하는 결과를 즉시 만들어냅니다.</p></div>
+</div>
+
+<h3 class="sh">맞춤 설정 vs GPTs 비교</h3>
+<table class="dt"><thead><tr><th>구분</th><th>맞춤 설정</th><th>GPTs</th></tr></thead><tbody>
+<tr><td>적용 범위</td><td>모든 대화에 자동 적용</td><td>해당 GPTs 대화에서만 작동</td></tr>
+<tr><td>역할</td><td>ChatGPT의 기본 성격 설정</td><td>특정 업무 전용 챗봇</td></tr>
+<tr><td>파일 업로드</td><td>불가</td><td>PDF, 엑셀 등 업로드 가능</td></tr>
+<tr><td>비유</td><td>회사의 사내 규정</td><td>부서별 업무 매뉴얼</td></tr>
+<tr class="hl"><td>조합 전략</td><td colspan="2">맞춤 설정으로 기본 바탕을 깔고, GPTs로 업무별 자동화를 구축</td></tr>
+</tbody></table>
+
+<h3 class="sh">준비물</h3>
+<div class="g4" style="grid-template-columns:1fr 1fr 1fr">
+<div class="gc"><div class="gt">ChatGPT Plus</div><div class="gd">월 $20 / 약 27,000원</div></div>
+<div class="gc"><div class="gt">브라우저</div><div class="gd">PC 또는 모바일</div></div>
+<div class="gc"><div class="gt">역할 아이디어</div><div class="gd">만들고 싶은 GPTs 구상</div></div>
+</div>
+<div class="co i"><div class="co-b"></div><div class="co-t"><strong>참고:</strong> 무료 계정에서도 다른 사람이 만든 GPTs를 사용하는 것은 가능합니다. 만들기 기능만 Plus 이상에서 제공됩니다.</div></div>
+
+<h3 class="sh">Configure 탭 핵심 항목</h3>
+
+<!-- SVG: GPTs Builder Configure 화면 구조도 -->
+<div style="margin:16px 0 24px;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;background:#fff">
+<svg viewBox="0 0 760 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs>
+    <filter id="ds2" x="-2%" y="-2%" width="104%" height="104%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.06"/></filter>
+  </defs>
+  <rect width="760" height="480" fill="#F9FAFB"/>
+  <!-- window -->
+  <rect x="20" y="16" width="720" height="448" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <!-- title bar -->
+  <rect x="20" y="16" width="720" height="40" rx="12" fill="#F3F4F6"/>
+  <rect x="20" y="44" width="720" height="12" fill="#F3F4F6"/>
+  <circle cx="44" cy="36" r="5" fill="#FCA5A5"/><circle cx="62" cy="36" r="5" fill="#FDE68A"/><circle cx="80" cy="36" r="5" fill="#86EFAC"/>
+  <text x="380" y="42" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="13" font-weight="700" fill="#374151">GPT 빌더 &mdash; Configure 탭</text>
+
+  <!-- tabs -->
+  <rect x="40" y="68" width="80" height="28" rx="6" fill="#E5E7EB"/>
+  <text x="80" y="87" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="11" font-weight="600" fill="#6B7280">만들기</text>
+  <rect x="128" y="68" width="80" height="28" rx="6" fill="#0F766E"/>
+  <text x="168" y="87" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="11" font-weight="700" fill="#FFF">구성</text>
+
+  <!-- Left column: form -->
+  <!-- Profile image -->
+  <circle cx="80" cy="130" r="24" fill="#E5E7EB" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="80" y="135" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="20" fill="#9CA3AF">+</text>
+  <text x="115" y="126" font-family="Pretendard,sans-serif" font-size="11" font-weight="600" fill="#6B7280">프로필 이미지</text>
+  <text x="115" y="140" font-family="Pretendard,sans-serif" font-size="10" fill="#9CA3AF">클릭하여 업로드</text>
+
+  <!-- Name field -->
+  <text x="44" y="178" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#374151">이름 (Name)</text>
+  <rect x="40" y="184" width="320" height="32" rx="6" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="52" y="205" font-family="Pretendard,sans-serif" font-size="12" fill="#9CA3AF">SNS 홍보 문구 작성기</text>
+
+  <!-- Description -->
+  <text x="44" y="234" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#374151">설명 (Description)</text>
+  <rect x="40" y="240" width="320" height="32" rx="6" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="52" y="261" font-family="Pretendard,sans-serif" font-size="12" fill="#9CA3AF">카페 인스타그램 홍보 문구를 작성합니다</text>
+
+  <!-- Instructions - highlighted -->
+  <text x="44" y="292" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#0F766E">지침 (Instructions) — 가장 중요!</text>
+  <rect x="40" y="298" width="320" height="80" rx="6" fill="#F0FDFA" stroke="#0F766E" stroke-width="2"/>
+  <text x="52" y="318" font-family="Pretendard,sans-serif" font-size="11" fill="#374151">너는 카페 SNS 홍보 전문가야.</text>
+  <text x="52" y="334" font-family="Pretendard,sans-serif" font-size="11" fill="#374151">항상 한국어로 답변해.</text>
+  <text x="52" y="350" font-family="Pretendard,sans-serif" font-size="11" fill="#374151">친근하고 감성적인 톤으로 작성해.</text>
+  <text x="52" y="366" font-family="Pretendard,sans-serif" font-size="11" fill="#374151">문구는 3개 이상 제안해.</text>
+
+  <!-- Conversation Starters -->
+  <text x="44" y="402" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#374151">대화 시작 문구</text>
+  <rect x="40" y="408" width="320" height="28" rx="6" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="52" y="427" font-family="Pretendard,sans-serif" font-size="11" fill="#9CA3AF">새 시즌 메뉴 홍보 문구 만들어줘</text>
+
+  <!-- Right column: preview -->
+  <rect x="388" y="100" width="332" height="340" rx="10" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="554" y="124" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#6B7280">미리보기</text>
+  <!-- GPT avatar -->
+  <circle cx="416" cy="160" r="16" fill="#0F766E"/>
+  <text x="416" y="165" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="12" font-weight="800" fill="#FFF">G</text>
+  <text x="440" y="156" font-family="Pretendard,sans-serif" font-size="12" font-weight="700" fill="#374151">SNS 홍보 문구 작성기</text>
+  <text x="440" y="170" font-family="Pretendard,sans-serif" font-size="10" fill="#9CA3AF">카페 인스타그램 홍보 문구를 작성합니다</text>
+  <!-- sample conversation -->
+  <rect x="404" y="192" width="220" height="28" rx="8" fill="#E5E7EB"/>
+  <text x="416" y="211" font-family="Pretendard,sans-serif" font-size="11" fill="#6B7280">새 시즌 메뉴 홍보 문구 만들어줘</text>
+  <!-- user bubble -->
+  <rect x="500" y="232" width="200" height="30" rx="10" fill="#0F766E"/>
+  <text x="600" y="252" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="11" font-weight="600" fill="#FFF">벚꽃 라떼 출시했어</text>
+  <!-- ai reply -->
+  <rect x="404" y="274" width="296" height="100" rx="10" fill="#FFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="416" y="294" font-family="Pretendard,sans-serif" font-size="11" fill="#374151" font-weight="600">봄이 찾아온 우리 카페에서</text>
+  <text x="416" y="312" font-family="Pretendard,sans-serif" font-size="11" fill="#374151">벚꽃 라떼가 시작되었습니다.</text>
+  <text x="416" y="336" font-family="Pretendard,sans-serif" font-size="11" fill="#6B7280">1. "올 봄, 당신의 첫 벚꽃은</text>
+  <text x="424" y="352" font-family="Pretendard,sans-serif" font-size="11" fill="#6B7280">   라떼 한 잔에서 시작됩니다"</text>
+  <!-- input bar -->
+  <rect x="404" y="388" width="296" height="32" rx="8" fill="#FFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="416" y="409" font-family="Pretendard,sans-serif" font-size="11" fill="#9CA3AF">메시지를 입력하세요...</text>
+
+  <!-- annotation arrows -->
+  <line x1="362" y1="338" x2="386" y2="338" stroke="#0F766E" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <text x="372" y="354" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="9" fill="#0F766E" transform="rotate(-90,372,354)">연동</text>
+</svg>
+<p style="text-align:center;font-size:15px;color:var(--ink-f);padding:8px 0 12px">GPT 빌더 Configure 탭의 구조. 왼쪽에서 설정하면 오른쪽 미리보기에 즉시 반영됩니다.</p>
+</div>
+
+<table class="dt"><thead><tr><th>항목</th><th>설명</th></tr></thead><tbody>
+<tr><td>이름 (Name)</td><td>GPTs의 이름</td></tr>
+<tr><td>설명 (Description)</td><td>이 GPTs가 하는 일 한 줄 요약</td></tr>
+<tr class="hl"><td>지침 (Instructions)</td><td>핵심 설정 영역 — 역할, 규칙, 말투를 정의</td></tr>
+<tr><td>대화 시작 문구</td><td>사용자에게 보여줄 예시 질문</td></tr>
+<tr><td>지식 (Knowledge)</td><td>참고 파일 업로드 (PDF, 엑셀 등)</td></tr>
+<tr><td>기능 (Capabilities)</td><td>웹 검색, 이미지 생성, 코드 실행 ON/OFF</td></tr>
+</tbody></table>
+
+<h3 class="sh">좋은 Instructions 작성법</h3>
+<div class="flow">
+<div class="flow-i"><div class="flow-n">1</div><div class="flow-l">역할 정의</div><div class="flow-d">"너는 ~하는<br>전문가야"</div></div>
+<div class="flow-i"><div class="flow-n">2</div><div class="flow-l">규칙 설정</div><div class="flow-d">"한국어로 답변해"<br>"3단계로 설명해"</div></div>
+<div class="flow-i"><div class="flow-n">3</div><div class="flow-l">제한 조건</div><div class="flow-d">"모르면 모른다고 해"<br>"추측하지 마"</div></div>
+<div class="flow-i"><div class="flow-n">4</div><div class="flow-l">말투 지정</div><div class="flow-d">"친절하고 격려하는<br>톤으로 말해줘"</div></div>
+</div>
+</section>
+
+<section class="section" id="pr2">
+<p class="overline">Practice 2 &mdash; 15분</p>
+<h2 class="section-title">실습: 나에게 맞는 GPTs 만들어보기</h2>
+<p class="section-desc">'대화로 만들기' 방식을 사용합니다. GPT 빌더에게 원하는 역할을 설명하면 자동으로 GPTs가 구성됩니다.</p>
+<div class="steps">
+<div class="si"><div class="sb">1</div><div class="sc"><h4>GPT 만들기 화면 접속</h4><p>ChatGPT 왼쪽 사이드바 &rarr; "GPT 탐색" &rarr; 상단 "+ 만들기(Create)" 클릭 &rarr; "만들기" 탭 선택</p></div></div>
+<div class="si"><div class="sb">2</div><div class="sc"><h4>원하는 GPTs를 설명</h4><p>아래 예시 중 하나를 선택하거나, 직접 작성하세요.</p>
+<div class="cb"><div class="cl">예시 A &mdash; SNS 홍보 문구 작성기</div><button class="cp" onclick="cc(this)">복사</button><pre>모든 답변은 한글로 해줘.
+나는 작은 카페를 운영하고 있어.
+새로운 메뉴나 이벤트를 인스타그램에 올릴 때 쓸 수 있는
+짧고 매력적인 홍보 문구를 만들어주는 GPT를 만들고 싶어.
+말투는 친근하고 감성적으로 해줘.</pre></div>
+<div class="cb"><div class="cl">예시 B &mdash; 회의록 정리 도우미</div><button class="cp" onclick="cc(this)">복사</button><pre>모든 답변은 한글로 해줘.
+나는 회사에서 회의가 끝나면 회의록을 정리해야 하는데,
+내가 메모한 내용을 넣으면 깔끔하게 정리해주는 GPT를 만들고 싶어.
+형식은 '날짜 / 참석자 / 안건 / 결정사항 / 후속조치'로 해줘.</pre></div>
+<div class="cb"><div class="cl">직접 작성 템플릿</div><button class="cp" onclick="cc(this)">복사</button><pre>모든 답변은 한글로 해줘.
+나는 [나의 상황]이야.
+[어떤 일]을 도와주는 GPT를 만들고 싶어.
+[원하는 스타일이나 조건]으로 해줘.</pre></div></div></div>
+<div class="si"><div class="sb">3</div><div class="sc"><h4>GPT 빌더 질문에 응답</h4><p>GPT 빌더가 이름, 아이콘, 세부 규칙을 물어봅니다. 한국어로 자유롭게 답하면 됩니다. 잘 모르는 항목은 "알아서 정해줘"라고 답해도 문제없습니다.</p></div></div>
+<div class="si"><div class="sb">4</div><div class="sc"><h4>미리보기에서 테스트 후 저장</h4><p>오른쪽 미리보기 화면에서 실제 질문을 던져 결과를 확인합니다. 만족스러우면 "만들기" &rarr; "나만(Only me)" &rarr; 저장 완료합니다.</p></div></div>
+</div>
+</section>
+
+<section class="section" id="ms">
+<p class="overline">After Class</p>
+<h2 class="section-title">적용 미션</h2>
+<p class="section-desc">수업 후 직접 실행해 보세요. 반복 사용해야 진짜 내 것이 됩니다.</p>
+<div class="mi"><h3>미션 1 — 맞춤 설정 업그레이드</h3><p>오늘 작성한 맞춤 설정을 일주일간 실제로 사용하면서, 불편한 점을 발견할 때마다 수정해 보세요.</p>
+<div class="mh"><strong>수정 예시</strong><p>"답변이 너무 길다" &rarr; "답변은 5문장 이내로 해줘" 추가<br>"존댓말이 어색하다" &rarr; "반말로 대화해도 돼" 추가<br>"특정 분야 답변이 약하다" &rarr; 전문 분야를 더 구체적으로 기술</p></div></div>
+<div class="mi"><h3>미션 2 — GPTs 2호 만들기</h3><p>일상이나 업무에서 반복되는 작업을 하나 더 골라, 두 번째 GPTs를 직접 만들어 보세요.</p>
+<div class="mh"><strong>아이디어</strong><p>매일 영어 단어 5개를 퀴즈로 내주는 "영어 코치"<br>저녁 메뉴를 추천해주는 "오늘 뭐 먹지"<br>내가 쓴 글의 맞춤법과 어투를 검사해주는 "교정 도우미"<br>회의 안건을 정리해주는 "회의 준비 비서"</p></div></div>
+</section>
+
+</main>
+
+<footer class="footer">
+<p class="hl">오늘 배운 맞춤 설정 + GPTs 조합만으로도</p>
+<p class="hl">AI 활용의 실질적인 차이를 만들 수 있습니다.</p>
+<p style="margin-top:16px">감사합니다.</p>
+</footer>
+
+<script>
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+const ids=['obj','p1','pr1','p2','pr2','ms'];
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));const i=ids.indexOf(e.target.id);if(i>=0)document.querySelectorAll('.nav-item')[i].classList.add('active')}})},{rootMargin:'-80px 0px -60% 0px'});
+ids.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});
+function cc(btn){const pre=btn.closest('.cb').querySelector('pre');navigator.clipboard.writeText(pre.textContent).then(()=>{btn.textContent='복사됨';btn.classList.add('copied');setTimeout(()=>{btn.textContent='복사';btn.classList.remove('copied')},2000)})}
+</script>
+</body>
+</html>
